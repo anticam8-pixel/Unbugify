@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "unbugify"
+version = "0.1.0"
+description = "Score a Python codebase and work the queue until it is clean."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "UNBUGIFY TEAM" }]
+keywords = [
+    "code-quality",
+    "static-analysis",
+    "linter",
+    "complexity",
+    "dead-code",
+    "duplication",
+    "technical-debt",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+]
+# Zero runtime dependencies, on purpose: a quality tool that drags a
+# dependency tree into your venv is not helping.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Homepage = "https://github.com/anticam8-pixel/Unbugify"
+Repository = "https://github.com/anticam8-pixel/Unbugify"
+Issues = "https://github.com/anticam8-pixel/Unbugify/issues"
+
+[project.scripts]
+unbugify = "unbugify:main"
+
+# One module, not a package -- see the note at the top of unbugify.py.
+[tool.hatch.build.targets.wheel]
+only-include = ["unbugify.py"]
+
+[tool.unbugify]
+exclude = ["test_unbugify.py"]
+
+[tool.unbugify.thresholds]
+max_cyclomatic = 10
+max_cognitive = 15
+max_function_lines = 60
+max_parameters = 5
+max_nesting = 4
+
+[tool.pytest.ini_options]
+addopts = "-q"
